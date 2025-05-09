@@ -2,26 +2,27 @@
 
 class Graph:
     """
-        Graph representation for this example.
+        Graph representation for directed weighted graphs.
 
         Assumptions: 
         - nodes are represented by their id and have no other content.
-        - edges are directed and unweighted.
+        - edges are directed and weighted.
+
     """
     def __init__(self): 
         self.adjacency_list = []
         self.num_nodes = 0
         self.num_edges = 0
 
-    def add_edge(self, from_index, to_index):
+    def add_edge(self, from_index, to_index, weight = 1):
         """ 
             adds an edge to the graph 
         """
-        while from_index >= len(self.adjacency_list):
+        while max(from_index,to_index) >= len(self.adjacency_list):
             self.adjacency_list.append([])
             self.num_nodes += 1
 
-        self.adjacency_list[from_index].append(to_index)
+        self.adjacency_list[from_index].append((to_index,weight))
         self.num_edges += 1
 
     def get_edges(self,from_index):
