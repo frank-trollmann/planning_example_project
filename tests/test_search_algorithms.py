@@ -1,6 +1,7 @@
 import unittest
 from algorithms.breadth_first_search import BreadthFirstSearch
 from algorithms.depth_first_search import DepthFirstSearch
+from evaluation.TimedExperiment import Timed_Experiment
 from graph.graph import Graph
 
 
@@ -50,6 +51,15 @@ class TestDataset(unittest.TestCase):
         path, distance = dfs.search(1, 3)
         assert path == None
         assert distance == None
+
+
+    def test_timed_experiment(self):
+        """
+            test that timed experiment works and runs the correct number of times.
+        """
+        experiment = Timed_Experiment(self.graph, BreadthFirstSearch, 10, random_seed=42)
+        experiment.run()
+        assert len(experiment.run_times) == 10
 
     def tearDown(self):
         pass
