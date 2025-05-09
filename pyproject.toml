@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ml_example_project"
+version = "1.0.0"
+description = "A planning example project for learning at CODE University of Applied Sciences."
+authors = [
+    {name = "Frank Trollmann", email="frank.trollmann@code.berlin"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent"
+]
+
+dynamic = ["dependencies"]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+repository = "https://github.com/frank-trollmann/machine-learning_exsample-project"
+
+[tool.pytest.ini_options]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test", "Acceptance"]
+python_functions = ["test_*"]
+testpaths = "tests"
+filterwarnings = "error"
+addopts = '''
+    --verbose
+    -p no:warnings
+    --strict-markers
+    --tb=short
+    --cov=src
+    --cov=tests
+    --cov-branch
+    --cov-report=term-missing
+    --cov-report=html:coverage/cov.html
+    --cov-report=xml:coverage/cov.xml
+    --no-cov-on-fail
+    --cov-fail-under=70
+    --asyncio-mode=auto
+'''
