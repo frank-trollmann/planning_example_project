@@ -50,6 +50,22 @@ class TestDataset(unittest.TestCase):
         self.dataset.remove_all()
         assert self.dataset.is_downloaded() == False
 
+    def test_add_coordinates(self):
+        """
+            test that coordinates are added correctly
+        """
+
+        graph = self.dataset.load_graph();
+
+        # check that node positions are not set by default
+        assert graph.get_node_position(0) is None
+        self.dataset.add_node_positions(graph,"if_auto")
+
+        # assert node positions have been set and each node has a position.
+        assert len(graph.node_positions) == graph.num_nodes
+        assert graph.get_node_position(0) is not None
+
+
     def tearDown(self):
         self.dataset.remove_all()
 

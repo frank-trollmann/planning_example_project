@@ -1,6 +1,7 @@
 from graph.graph import Graph
 
 import os
+import pickle
 from urllib.request import urlretrieve
 from pathlib import Path
 import gzip
@@ -80,3 +81,13 @@ class Dataset:
             graph.add_edge(from_index, to_index)
 
         return graph
+    
+    def add_node_positions(self, graph, type):
+        """
+            loads the node positions from a pickle file and attaches them to the graph.
+            The file should contain a list of coordinates, indexed by node index.
+        """
+        file_name = f"data/coordinates/{type}.pickle"
+        with open(file_name, "rb") as f:
+            node_positions = pickle.load(f)
+            graph.add_node_positions(node_positions)
