@@ -1,7 +1,7 @@
 import unittest
-from algorithms.breadth_first_search import BreadthFirstSearch
-from algorithms.depth_first_search import DepthFirstSearch
-from evaluation.TimedExperiment import Timed_Experiment
+from algorithms.breadth_first_search import Breadth_First_Search
+from algorithms.depth_first_search import Depth_First_Search
+from evaluation.timed_experiment import Timed_Experiment
 from graph.graph import Graph
 
 
@@ -21,7 +21,7 @@ class TestDataset(unittest.TestCase):
         """
             test interaction between dataset download and check for downloading
         """
-        bfs = BreadthFirstSearch(self.graph)
+        bfs = Breadth_First_Search(self.graph)
 
         # case 1: path can be found        
         path, distance = bfs.search(0, 2)
@@ -40,7 +40,7 @@ class TestDataset(unittest.TestCase):
         """
             test interaction between dataset download and check for downloading
         """
-        dfs = DepthFirstSearch(self.graph)
+        dfs = Depth_First_Search(self.graph)
 
         # case 1: path can be found        
         path, distance = dfs.search(0, 2)
@@ -57,9 +57,10 @@ class TestDataset(unittest.TestCase):
         """
             test that timed experiment works and runs the correct number of times.
         """
-        experiment = Timed_Experiment(self.graph, BreadthFirstSearch, 10, random_seed=42)
+        experiment = Timed_Experiment(self.graph, Breadth_First_Search, 10, random_seed=42)
         experiment.run()
         assert len(experiment.run_times) == 10
+        assert len(experiment.nr_extensions) == 10
 
     def tearDown(self):
         pass

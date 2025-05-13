@@ -3,7 +3,7 @@ import numpy as np
 from graph.graph import Graph
 
 
-class DepthFirstSearch:
+class Depth_First_Search:
 
 
 

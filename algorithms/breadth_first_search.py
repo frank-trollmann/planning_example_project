@@ -3,7 +3,7 @@ import numpy as np
 from graph.graph import Graph
 
 
-class BreadthFirstSearch:
+class Breadth_First_Search:
 
 
 
