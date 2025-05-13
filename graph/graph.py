@@ -27,7 +27,7 @@ class Graph:
             self.adjacency_list.append([])
             self.num_nodes += 1
 
-        self.adjacency_list[from_index].append((to_index,weight))
+        self.adjacency_list[from_index].append([to_index,weight])
         self.num_edges += 1
 
     def get_edges(self,from_index):
@@ -43,11 +43,23 @@ class Graph:
         for index in range(len(self.adjacency_list)):
             print(f"{index}: {self.adjacency_list[index]}")
 
-    def add_node_positions(self, node_positions):
+    def convert_to_spatial(self, node_positions):
         """
             can be used to set positions for nodes after the fact
         """
         self.node_positions = node_positions
+
+        # convert all edge weights to represent distances.
+        for source in range(len(self.adjacency_list)):
+            source_x = node_positions[source][0]
+            source_y = node_positions[source][1]
+            for edge in self.adjacency_list[source]:
+                target, _ = edge
+                target_x = node_positions[target][0]
+                target_y = node_positions[target][1]
+
+                distance = ((source_x - target_x) ** 2 + (source_y - target_y) ** 2) ** 0.5
+                edge[1] = distance
 
     def get_node_position(self, node_index):
         """

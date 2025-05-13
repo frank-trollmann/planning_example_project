@@ -50,7 +50,7 @@ class TestDataset(unittest.TestCase):
         self.dataset.remove_all()
         assert self.dataset.is_downloaded() == False
 
-    def test_add_coordinates(self):
+    def test_convert_to_spatial(self):
         """
             test that coordinates are added correctly
         """
@@ -59,7 +59,7 @@ class TestDataset(unittest.TestCase):
 
         # check that node positions are not set by default
         assert graph.get_node_position(0) is None
-        self.dataset.add_node_positions(graph,"if_auto")
+        self.dataset.convert_to_spatial(graph,"if_auto")
 
         # assert node positions have been set and each node has a position.
         assert len(graph.node_positions) == graph.num_nodes
