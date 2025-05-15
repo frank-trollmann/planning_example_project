@@ -9,11 +9,12 @@ from requests import get
 
 class Timed_Experiment:
 
-    def __init__(self, graph, pathfinder_constructor, nr_runs, random_seed=None):
+    def __init__(self, graph, pathfinder_constructor, nr_runs, random_seed=None, verbose = False):
         self.graph = graph
         self.pathfinder_constructor = pathfinder_constructor
         self.nr_runs = nr_runs
         self.random_seed = random_seed
+        self.verbose = verbose
 
         self.run_times = []
         self.nr_extensions = []
@@ -30,7 +31,8 @@ class Timed_Experiment:
             end_node = random.randint(0, self.graph.num_nodes - 1)
             pathfinder = self.pathfinder_constructor(self.graph)
 
-            print(f"Running {self.pathfinder_constructor.__name__} on {start_node} to {end_node}")
+            if self.verbose:
+                print(f"Running {self.pathfinder_constructor.__name__} on {start_node} to {end_node}")
 
             start = time.time_ns()
             _, _ = pathfinder.search(start_node, end_node)
