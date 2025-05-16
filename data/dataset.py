@@ -82,7 +82,7 @@ class Dataset:
 
         return graph
     
-    def convert_to_spatial(self, graph, type):
+    def convert_to_spatial(self, graph, type, scale_factor = 1.0):
         """
             loads the node positions from a pickle file and attaches them to the graph.
             The file should contain a list of coordinates, indexed by node index.
@@ -90,4 +90,5 @@ class Dataset:
         file_name = f"data/coordinates/{type}.pickle"
         with open(file_name, "rb") as f:
             node_positions = pickle.load(f)
+            node_positions = [[position[0]*scale_factor, position[1]*scale_factor,] for position in node_positions]
             graph.convert_to_spatial(node_positions)
