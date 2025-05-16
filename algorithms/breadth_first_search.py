@@ -1,6 +1,6 @@
 
+from collections import deque
 import numpy as np
-from graph.graph import Graph
 
 
 class Breadth_First_Search:
@@ -29,14 +29,14 @@ class Breadth_First_Search:
 
         # seen denotes which nodes have aleady been seen. For efficient lookup we use numpy arrays.
         seen = np.zeros((self.graph.num_nodes), dtype=bool)
-        open = []
+        open = deque()
         self.last_step_count = 0;
 
         open.append((start_index,0,[]))
 
         while len(open) > 0:
             self.last_step_count += 1
-            current, current_distance, current_path = open.pop(-1)
+            current, current_distance, current_path = open.popleft()
             
             if current == end_index:
                 return current_path, current_distance
