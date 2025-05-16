@@ -59,7 +59,7 @@ class TestDataset(unittest.TestCase):
 
         # check that node positions are not set by default
         assert graph.get_node_position(0) is None
-        self.dataset.convert_to_spatial(graph,"if_auto")
+        self.dataset.convert_to_spatial(graph,"if_auto_1")
 
         # assert node positions have been set and each node has a position.
         assert len(graph.node_positions) == graph.num_nodes
