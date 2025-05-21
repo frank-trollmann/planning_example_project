@@ -2,6 +2,8 @@
 import numpy as np
 from queue import PriorityQueue
 from graph.graph import Graph
+import heapdict 
+from queue import PriorityQueue
 
 
 class A_Star:
@@ -20,56 +22,72 @@ class A_Star:
         """
         return self.last_step_count;
 
+
     def search(self, start_index, end_index):
-        """
-            Perform a backtrack search from start_index to end_index.
-            Returns a tuple consisting of
-            - the path from start_index to end_index 
-            - the distance of the path (as a tuple)
-        """
-        self.last_step_count = 0;
+            """
+                Perform a backtrack search from start_index to end_index.
+                Returns a tuple consisting of
+                - the path from start_index to end_index 
+                - the distance of the path (as a tuple)
+            """
+            self.last_step_count = 0;
 
-        # used np array for fast lookup of closed list
-        closed = np.zeros((self.graph.num_nodes), dtype=int)
-        # use priority queue for visiting in order of path length
-        open = PriorityQueue()
-        heuristic_value = self.heuristic_value(start_index, end_index)
-        open.put((heuristic_value, start_index, 0, []))
+            # used np array for fast lookup of closed list
+            closed = np.zeros((self.graph.num_nodes), dtype=int)
+            distances = np.full((self.graph.num_nodes), -1, dtype=float)
+            # use priority queue for visiting in order of path length
+            open = PriorityQueue()
+            open.put((0, 0, start_index, []))
+            distances[start_index] = 0
 
-        while not open.empty():
-            self.last_step_count += 1
-            _, current_index, current_distance, current_path = open.get()
+            while not open.empty():
+                _, current_distanceX , current, current_path = open.get()
+                current_distance = distances[current];
 
-            # found goal
-            if current_index == end_index:
-                return current_path, current_distance
-            
-            # seen this before with a shorter path -> can skip
-            if closed.item(current_index) == True:
-                continue
-            np.put(closed, current_index, True)
+                # seen this before with a shorter path -> can skip
+                if closed[current] == True:
+                    continue
+                np.put(closed, current, True)
 
-            # add all neighbors to open list
-            for neighbor, distance in self.graph.get_edges(current_index):
-                if closed.item(neighbor) == False:
+                self.last_step_count += 1
+
+                # found goal
+                if current == end_index:
+                    return current_path, current_distance
+
+                # add all neighbors to open list
+                for neighbor, distance in self.graph.get_edges(current):
+                    if closed.item(neighbor) == True:
+                        continue
                     new_distance = current_distance + distance
-                    new_heuristic = new_distance + self.heuristic_value(neighbor, end_index)
-                    open.put((new_heuristic, neighbor, new_distance, current_path + [neighbor]))
-                  
-        return None, None
-    
+                    known_distance = distances[neighbor];
+                    
+                    if known_distance < 0 or known_distance > new_distance:
+                        h = self.heuristic_value(neighbor, end_index)
+                        open.put((new_distance + h, new_distance, neighbor, current_path + [neighbor]))
+                        distances[neighbor] = new_distance
+                    
+            return None, None
+
+
 
     def heuristic_value(self, start_index, end_index):
         """
             Returns the heuristic value of a node.
             This is the distance from the node to the end node.
         """
-        source_x = self.graph.get_node_position(start_index)[0]
-        source_y = self.graph.get_node_position(start_index)[1]
-        target_x = self.graph.get_node_position(end_index)[0]
-        target_y = self.graph.get_node_position(end_index)[1]
+        start_position = self.graph.get_node_position(start_index)
+        end_position = self.graph.get_node_position(end_index)
 
-        return ((source_x - target_x) ** 2 + (source_y - target_y) ** 2) ** 0.5
+        if start_position is None or end_position is None:
+            return 0;
+
+        source_x = start_position[0]
+        source_y = start_position[1]
+        target_x = end_position[0]
+        target_y = end_position[1]
+
+        return abs(source_x - target_x) + abs(source_y - target_y)
 
 
 

@@ -58,7 +58,7 @@ class Graph:
                 target_x = node_positions[target][0]
                 target_y = node_positions[target][1]
 
-                distance = ((source_x - target_x) ** 2 + (source_y - target_y) ** 2) ** 0.5
+                distance = abs(source_x - target_x) + abs(source_y - target_y)
                 edge[1] = distance
 
     def get_node_position(self, node_index):
