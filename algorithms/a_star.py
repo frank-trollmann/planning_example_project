@@ -1,9 +1,6 @@
 
 import numpy as np
-from queue import PriorityQueue
-from graph.graph import Graph
-import heapdict 
-from queue import PriorityQueue
+import heapq
 
 
 class A_Star:
@@ -36,12 +33,12 @@ class A_Star:
             closed = np.zeros((self.graph.num_nodes), dtype=int)
             distances = np.full((self.graph.num_nodes), -1, dtype=float)
             # use priority queue for visiting in order of path length
-            open = PriorityQueue()
-            open.put((0, 0, start_index, []))
+            open = []
+            heapq.heappush(open,(0, start_index, []))
             distances[start_index] = 0
 
-            while not open.empty():
-                _, current_distanceX , current, current_path = open.get()
+            while not len(open) == 0:
+                _ , current, current_path = heapq.heappop(open)	
                 current_distance = distances[current];
 
                 # seen this before with a shorter path -> can skip
@@ -64,7 +61,7 @@ class A_Star:
                     
                     if known_distance < 0 or known_distance > new_distance:
                         h = self.heuristic_value(neighbor, end_index)
-                        open.put((new_distance + h, new_distance, neighbor, current_path + [neighbor]))
+                        heapq.heappush(open,(new_distance + h, neighbor, current_path + [neighbor]))
                         distances[neighbor] = new_distance
                     
             return None, None

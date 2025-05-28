@@ -1,5 +1,4 @@
 
-from queue import LifoQueue
 from collections import deque
 import numpy as np
 
@@ -42,7 +41,7 @@ class Heuristic_Search:
             if current == end_index:
                 return current_path, current_distance
 
-            for neighbor, distance in sorted(self.graph.get_edges(current), key = lambda edge: self.heuristic_value(edge[0],end_index)):	
+            for neighbor, distance in sorted(self.graph.get_edges(current), key = lambda edge: self.heuristic_value(edge[0],end_index), reverse=True):	
                 
                 if seen.item(neighbor) == False:
                     open.append((neighbor, current_distance + distance, current_path + [neighbor]))

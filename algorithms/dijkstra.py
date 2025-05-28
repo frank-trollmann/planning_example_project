@@ -1,6 +1,6 @@
 
 import numpy as np
-from queue import PriorityQueue
+import heapq;
 
 
 
@@ -20,7 +20,6 @@ class Dijkstra:
         """
         return self.last_step_count;
 
-
     def search(self, start_index, end_index):
             """
                 Perform a backtrack search from start_index to end_index.
@@ -34,12 +33,12 @@ class Dijkstra:
             closed = np.zeros((self.graph.num_nodes), dtype=int)
             distances = np.full((self.graph.num_nodes), -1, dtype=float)
             # use priority queue for visiting in order of path length
-            open = PriorityQueue()
-            open.put((0, start_index, []))
+            open = []
+            heapq.heappush(open,(0, start_index, []))
             distances[start_index] = 0
 
-            while not open.empty():
-                current_distanceX, current, current_path = open.get()
+            while not len(open) == 0:
+                current_distanceX, current, current_path = heapq.heappop(open)	
                 current_distance = distances[current];
 
                 if closed[current] == True:
@@ -61,10 +60,11 @@ class Dijkstra:
                     known_distance = distances[neighbor]
                     
                     if known_distance < 0 or known_distance > new_distance:
-                        open.put((new_distance, neighbor, current_path + [neighbor]))
+                        heapq.heappush(open,(new_distance, neighbor, current_path + [neighbor]))
                         distances[neighbor] = new_distance
                     
             return None, None
+
 
 
         
