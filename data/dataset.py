@@ -3,20 +3,20 @@ from graph.graph import Graph
 import os
 import pickle
 from urllib.request import urlretrieve
-from pathlib import Path
 import gzip
 
 
 
 class Dataset:
     """
-        This class is a convenience wrapper for dataset functions. It taks care of interaction with the file system and downloading the dataset.
+        Convenience wrapper for dataset functions. 
+        Takes care of interaction with the file system and downloading the dataset.
     """
 
     def __init__(self, test_mode = False):
         """
             constructor. 
-            If test_case is true, this will use different folders so unit tests don't interfere with any downloaded data.
+            If test_mode is true, this will use different folders so unit tests don't interfere with any downloaded data.
         """
         self.FILE_NAME = "dataset.txt.gz"
 
