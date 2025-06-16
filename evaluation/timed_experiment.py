@@ -1,6 +1,3 @@
-
-
-from os import path
 import random
 import time
 
@@ -8,6 +5,9 @@ from requests import get
 
 
 class Timed_Experiment:
+    """
+        Runs experiments and keeps track of statistics.
+    """
 
     def __init__(self, graph, pathfinder_constructor, nr_runs, random_seed=None, verbose = False):
         self.graph = graph
@@ -25,6 +25,9 @@ class Timed_Experiment:
         
 
     def run(self):
+        """
+            run the experiments as configured
+        """
         if self.random_seed is not None:
             random.seed(self.random_seed)
 
