@@ -1,24 +1,16 @@
 
 import numpy as np
-import heapq;
+import heapq
 
+from algorithms.search_algorithm import Search_Algorithm
 
-
-class Dijkstra:
-
-
+class Dijkstra(Search_Algorithm):
+    """
+        Implementation of Dijkstra's Algorithm
+    """
 
     def __init__(self, graph):
-        self.graph = graph
-        self.last_step_count = 0;
-
-
-    def get_last_step_count(self):
-        """
-            Returns the number of steps taken in the last search. 
-            This corresponds to the number of nodes that have been expanded.
-        """
-        return self.last_step_count;
+        super().__init__(graph)
 
     def search(self, start_index, end_index):
             """
@@ -27,7 +19,7 @@ class Dijkstra:
                 - the path from start_index to end_index 
                 - the distance of the path (as a tuple)
             """
-            self.last_step_count = 0;
+            self.last_step_count = 0
 
             # used np array for fast lookup of closed list
             closed = np.zeros((self.graph.num_nodes), dtype=int)
@@ -38,8 +30,8 @@ class Dijkstra:
             distances[start_index] = 0
 
             while not len(open) == 0:
-                current_distanceX, current, current_path = heapq.heappop(open)	
-                current_distance = distances[current];
+                _, current, current_path = heapq.heappop(open)	
+                current_distance = distances[current]
 
                 if closed[current] == True:
                     continue

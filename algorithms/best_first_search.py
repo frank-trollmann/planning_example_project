@@ -1,24 +1,16 @@
 
 import numpy as np
 from queue import PriorityQueue
-from graph.graph import Graph
 
+from algorithms.informed_search_algorithm import Informed_Search_Algorithm
 
-class Best_First_Search:
-
-
+class Best_First_Search(Informed_Search_Algorithm):
+    """
+        Implementation of best first search with manhattan distance heuristic
+    """
 
     def __init__(self, graph):
-        self.graph = graph
-        self.last_step_count = 0;
-
-
-    def get_last_step_count(self):
-        """
-            Returns the number of steps taken in the last search. 
-            This corresponds to the number of nodes that have been expanded.
-        """
-        return self.last_step_count;
+        super().__init__(graph)
 
     def search(self, start_index, end_index):
         """
@@ -27,7 +19,7 @@ class Best_First_Search:
             - the path from start_index to end_index 
             - the distance of the path (as a tuple)
         """
-        self.last_step_count = 0;
+        self.last_step_count = 0
 
         # used np array for fast lookup of closed list
         closed = np.zeros((self.graph.num_nodes), dtype=int)
@@ -54,21 +46,4 @@ class Best_First_Search:
                     open.put((self.heuristic_value(neighbor, end_index), neighbor, current_path + [neighbor]))
                   
         return None, None
-    
-
-    def heuristic_value(self, start_index, end_index):
-        """
-            Returns the heuristic value of a node.
-            This is the distance from the node to the end node.
-        """
-        source_x = self.graph.get_node_position(start_index)[0]
-        source_y = self.graph.get_node_position(start_index)[1]
-        target_x = self.graph.get_node_position(end_index)[0]
-        target_y = self.graph.get_node_position(end_index)[1]
-
-        return ((source_x - target_x) ** 2 + (source_y - target_y) ** 2) ** 0.5
-
-
-
-
     

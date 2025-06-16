@@ -1,45 +1,34 @@
-
 import numpy as np
 import heapq
 
+from algorithms.informed_search_algorithm import Informed_Search_Algorithm
 
-class A_Star:
-
-
+class A_Star(Informed_Search_Algorithm):
+    """
+        Implementation of the A* algorithm with manhattan distance heuristic
+    """
 
     def __init__(self, graph):
-        self.graph = graph
-        self.last_step_count = 0;
-
-
-    def get_last_step_count(self):
-        """
-            Returns the number of steps taken in the last search. 
-            This corresponds to the number of nodes that have been expanded.
-        """
-        return self.last_step_count;
-
+        super().__init__(graph)
 
     def search(self, start_index, end_index):
             """
-                Perform a backtrack search from start_index to end_index.
+                Perform A* search search from start_index to end_index.
                 Returns a tuple consisting of
                 - the path from start_index to end_index 
                 - the distance of the path (as a tuple)
             """
-            self.last_step_count = 0;
-
-            # used np array for fast lookup of closed list
+            self.last_step_count = 0
             closed = np.zeros((self.graph.num_nodes), dtype=int)
             distances = np.full((self.graph.num_nodes), -1, dtype=float)
-            # use priority queue for visiting in order of path length
             open = []
+
             heapq.heappush(open,(0, start_index, []))
             distances[start_index] = 0
 
             while not len(open) == 0:
                 _ , current, current_path = heapq.heappop(open)	
-                current_distance = distances[current];
+                current_distance = distances[current]
 
                 # seen this before with a shorter path -> can skip
                 if closed[current] == True:
@@ -57,7 +46,7 @@ class A_Star:
                     if closed.item(neighbor) == True:
                         continue
                     new_distance = current_distance + distance
-                    known_distance = distances[neighbor];
+                    known_distance = distances[neighbor]
                     
                     if known_distance < 0 or known_distance > new_distance:
                         h = self.heuristic_value(neighbor, end_index)
@@ -65,28 +54,3 @@ class A_Star:
                         distances[neighbor] = new_distance
                     
             return None, None
-
-
-
-    def heuristic_value(self, start_index, end_index):
-        """
-            Returns the heuristic value of a node.
-            This is the distance from the node to the end node.
-        """
-        start_position = self.graph.get_node_position(start_index)
-        end_position = self.graph.get_node_position(end_index)
-
-        if start_position is None or end_position is None:
-            return 0;
-
-        source_x = start_position[0]
-        source_y = start_position[1]
-        target_x = end_position[0]
-        target_y = end_position[1]
-
-        return abs(source_x - target_x) + abs(source_y - target_y)
-
-
-
-
-    

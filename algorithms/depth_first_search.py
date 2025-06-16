@@ -1,24 +1,15 @@
-
-from queue import LifoQueue
 from collections import deque
 import numpy as np
 
+from algorithms.search_algorithm import Search_Algorithm
 
-class Depth_First_Search:
-
-
+class Depth_First_Search(Search_Algorithm):
+    """
+        Implementation of Depth Firt Search
+    """
 
     def __init__(self, graph):
-        self.graph = graph
-        self.last_step_count = 0;
-
-
-    def get_last_step_count(self):
-        """
-            Returns the number of steps taken in the last search. 
-            This corresponds to the number of nodes that have been expanded.
-        """
-        return self.last_step_count;
+        super().__init__(graph)
 
     def search(self, start_index, end_index):
         """
