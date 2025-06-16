@@ -4,17 +4,16 @@
 
     Since this script is not in the main folder, it needs to be called as a module to resolve it's dependencies.
     Call it with: python -m scripts.generate_coordinates.
+
+    Originally the script was called with all algorithms identified in previous experiments. Some algorithms were excluded:
+    - Algorithms that exceeded 1h of run time: "davidson_harel", "graphopt"
+    - Algorithms that ran out of memory: "kamada_kawai",  "mds"
 """
 
 import pickle
 import time
-import os
-print(os.getcwd())
-
 import igraph as ig
 import data.dataset
-
-print(os.getcwd())
 
 def generate_coordinates(layout_name, experiment_number):
     """
@@ -36,10 +35,6 @@ def generate_coordinates(layout_name, experiment_number):
 if __name__ == "__main__":
 
     NR_RUNS = 5
-    # done: "auto", "drl""fruchterman_reingold"
-    # tood long: "davidson_harel", "graphopt"
-    # out of memory "kamada_kawai",  "mds"
-    # started last: 10:00
     LAYOUTS = ["auto", "drl", "fruchterman_reingold"]
     time_measurements = {}
 
